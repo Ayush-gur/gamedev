@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,41 +10,35 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public float movespeed = 2.0f;
 
+    private PlayerInput playerInput;
+    private InputController PlayerInputControl;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-    }
+        playerInput = GetComponent<PlayerInput>();
 
+        PlayerInputControl = new InputController();
+        PlayerInputControl.Player.Enable();
+        PlayerInputControl.Player.Jump1.performed += Jump;
+        PlayerInputControl.Player.Movement.performed += Move;
+    }
+    private void FixedUpdate()
+    { 
+        Vector2 inputVector = PlayerInputControl.Player.Movement.ReadValue<Vector2>();
+        rb.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * movespeed, ForceMode.Force);
+    }
     // Update is called once per frame
-    void Update()
+    public void Jump(InputAction.CallbackContext Context)
     {
-        Move();
-        Jump();
-    }
-
-    void Move()
-    {
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
-        Vector3 dir = new Vector3(xInput, 0, zInput) * movespeed;
-        dir.y = rb.velocity.y;
-        rb.velocity = dir;
-
-        Vector3 facingDir = new Vector3(xInput, 0, zInput);
-        if (facingDir.magnitude > 0)
+        if (Context.performed)
         {
-            transform.forward = facingDir;
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
-    void Jump()
+   public void Move(InputAction.CallbackContext Context)
     {
-        if(Input.GetButtonDown("Jump"))
-        {
-            checkJumpForce();
-        }
-    }
-    void checkJumpForce()
-    {
-        rb.AddForce(Vector3.up*jumpForce, ForceMode.Impulse);
+        Vector2 inputVector = PlayerInputControl.Player.Movement.ReadValue<Vector2>();
+        rb.AddForce(new Vector3(inputVector.x, 0, inputVector.y) * movespeed, ForceMode.Force);
     }
 }

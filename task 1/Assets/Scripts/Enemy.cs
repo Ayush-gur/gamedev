@@ -5,22 +5,37 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float Movespeed;
-    [SerializeField] private GameObject Player;
-
+    private GameObject player;
     //public Transform target;
     void Start()
     {
-       //unsure why this isn't working 
-       //target = GameObject.FindGameObjectWithTag("Champ").GetComponent<Transform>();
+        player = GameObject.FindGameObjectWithTag("Champ");
+
     }
     private void Update()
     {
-        Move();
+        if (player == null)
+        {
+            //Vector3 playerPosition = PlayerController.Instance.transform.position;
+            Move();
+        }
+      
     }
     public virtual void Move() // use of polymorph
     {
-       transform.LookAt(Player.transform);
-       transform.position += transform.forward * Movespeed * Time.deltaTime;
+        //Vector3 playerPosition = PlayerController.Instance.transform.position;
+        //transform.LookAt(playerPosition);
+        //transform.position += transform.forward * Movespeed * Time.deltaTime;
+        transform.LookAt(player.transform.position); // Look at the player
+        transform.position += transform.forward * Movespeed * Time.deltaTime;
     }
-    
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Bullet")
+        {
+            Destroy(this.gameObject);
+            KillCounter.KillValue++;
+        }
+    }
 }

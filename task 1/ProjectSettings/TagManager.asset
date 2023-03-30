@@ -7,6 +7,7 @@ TagManager:
   - Box
   - Enemy
   - Champ
+  - Bullet
   layers:
   - Default
   - TransparentFX
