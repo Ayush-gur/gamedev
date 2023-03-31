@@ -18,5 +18,9 @@ public class KillCounter : MonoBehaviour
     void Update()
     {
         score.text = "Kills:" + KillValue;
+        if(Input.GetKeyDown(KeyCode.Z))
+        {
+            KillValue = 0;
+        }
     }
 }

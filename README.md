@@ -1,10 +1,10 @@
 
-# Game Dev 2 assignment
+# Game Dev 8 assignment
 
-The game i am making for this assignment is a simple top down shooter/parkour game. The best way to put it, Mario 3D with shooting elements.
+Created a save and load system for the game, press c to save, v to load, and to check if the kill counter save is working properly,
+press z to reset kill count to 0
 
 
 ## Acknowledgements
--https://drive.google.com/drive/folders/1LMFPrRMxmYMH59zy9u8ViovHdb7tRsxh or https://quaternius.com/packs/toonshootergamekit.html
-for my character
+- https://www.youtube.com/watch?v=6uMFEM-napE&ab_channel=CodeMonkey for helping clarify how to make json files
 
